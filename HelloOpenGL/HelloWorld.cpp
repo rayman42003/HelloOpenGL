@@ -1,5 +1,7 @@
+#define GLEW_STATIC
+#include <GL/glew.h>
 #include <GLFW\glfw3.h>
-#include <thread>
+#include <stdio.h>
 
 using namespace std;
 
@@ -15,10 +17,19 @@ int main()
 
 	GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGL", nullptr, nullptr);
 	glfwMakeContextCurrent(window);
+
+	glewExperimental = GL_TRUE;
+	glewInit();
 	
+	GLuint vertexBuffer;
+	glGenBuffers(1, &vertexBuffer);
+	printf("%u\n", vertexBuffer);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glfwSwapBuffers(window);
+		
+
 		glfwPollEvents();
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, GL_TRUE);
