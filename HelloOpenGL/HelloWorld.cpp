@@ -50,6 +50,9 @@ int main()
 	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(posAttrib);
 
+	GLint uniColor = glGetUniformLocation(program, "triangleColor");
+	glUniform3f(uniColor, 1.0f, 0.0f, 0.0f);
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glDrawArrays(GL_TRIANGLES, 0, 3);
