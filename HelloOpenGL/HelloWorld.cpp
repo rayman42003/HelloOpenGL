@@ -51,16 +51,19 @@ int main()
 	glEnableVertexAttribArray(posAttrib);
 
 	GLint uniColor = glGetUniformLocation(program, "triangleColor");
-	glUniform3f(uniColor, 1.0f, 0.0f, 0.0f);
 
+	unsigned long int time = 0;
 	while (!glfwWindowShouldClose(window))
 	{
+		int ratio = time % 1000;
+		glUniform3f(uniColor, sin((float)ratio/1000.0f * 22 / 7), 0.0f, 0.0f);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glfwSwapBuffers(window);
 
 		glfwPollEvents();
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, GL_TRUE);
+		time++;
 	}
 
 	glfwTerminate();
