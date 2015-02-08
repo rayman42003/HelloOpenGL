@@ -54,13 +54,8 @@ int main()
 	glEnableVertexAttribArray(colorAttrib);
 	glVertexAttribPointer(colorAttrib, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
 
-	GLint uniColor = glGetUniformLocation(program, "triangleColor");
-
-	unsigned long int time = 0;
 	while (!glfwWindowShouldClose(window))
 	{
-		int ratio = time % 1000;
-		glUniform3f(uniColor, sin((float)ratio/1000.0f * 22 / 7), 0.0f, 0.0f);
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 		glfwSwapBuffers(window);
 
