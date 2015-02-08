@@ -28,9 +28,9 @@ int main()
 	glBindVertexArray(vao);
 
 	GLfloat vertices[] = {
-		0.0f, 0.5f,
-		0.5f, -0.5f,
-		-0.5f, -0.5f
+		0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
+		0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f
 	};
 	
 	GLuint vbo;
@@ -47,8 +47,12 @@ int main()
 	glUseProgram(program);
 
 	GLint posAttrib = glGetAttribLocation(program, "position");
-	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(posAttrib);
+	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 5*sizeof(float), 0);
+	
+	GLint colorAttrib = glGetAttribLocation(program, "color");
+	glEnableVertexAttribArray(colorAttrib);
+	glVertexAttribPointer(colorAttrib, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
 
 	GLint uniColor = glGetUniformLocation(program, "triangleColor");
 
