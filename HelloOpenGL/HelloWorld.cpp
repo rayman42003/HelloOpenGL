@@ -28,9 +28,13 @@ int main()
 	glBindVertexArray(vao);
 
 	GLfloat vertices[] = {
-		0.0f, 0.5f, 1.0f, 0.0f, 0.0f,
-		0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-		-0.5f, -0.5f, 0.0f, 0.0f, 1.0f
+		-0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+		0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
+		0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
+
+		0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
+		-0.5f, 0.5f, 1.0f, 0.0f, 0.0f
 	};
 	
 	GLuint vbo;
@@ -56,13 +60,12 @@ int main()
 
 	while (!glfwWindowShouldClose(window))
 	{
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
 		glfwSwapBuffers(window);
 
 		glfwPollEvents();
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 			glfwSetWindowShouldClose(window, GL_TRUE);
-		time++;
 	}
 
 	glfwTerminate();
