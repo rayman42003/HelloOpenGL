@@ -33,18 +33,23 @@ int main()
 		-0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
 		0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
 		0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
-
-		0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
 		-0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
-		-0.5f, 0.5f, 1.0f, 0.0f, 0.0f
 	};
-
-	//TODO: Element buffers
 	
 	GLuint vbo;
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+ 
+	GLuint elements[] = {
+		0, 1, 2,
+		2, 3, 0
+	};
+
+	GLuint ebo;
+	glGenBuffers(1, &ebo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
 
 	GLuint vertexShader = ShaderLoader::LoadShader("basic.vert", GL_VERTEX_SHADER);
 	GLuint fragmentShader = ShaderLoader::LoadShader("basic.frag", GL_FRAGMENT_SHADER);
@@ -64,7 +69,7 @@ int main()
 
 	while (!glfwWindowShouldClose(window))
 	{
-		glDrawArrays(GL_TRIANGLES, 0, 6);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glfwSwapBuffers(window);
 
 		glfwPollEvents();
