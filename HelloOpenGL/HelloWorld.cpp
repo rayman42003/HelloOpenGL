@@ -27,6 +27,8 @@ int main()
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
+	//TODO: Externally load vertices
+	//TODO: 3D color cube
 	GLfloat vertices[] = {
 		-0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
 		0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
@@ -36,6 +38,8 @@ int main()
 		-0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
 		-0.5f, 0.5f, 1.0f, 0.0f, 0.0f
 	};
+
+	//TODO: Element buffers
 	
 	GLuint vbo;
 	glGenBuffers(1, &vbo);
