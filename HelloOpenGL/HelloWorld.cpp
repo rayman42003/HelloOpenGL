@@ -30,10 +30,11 @@ int main()
 	//TODO: Externally load vertices
 	//TODO: 3D color cube
 	GLfloat vertices[] = {
-		-0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
-		0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
-		0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
-		-0.5f, -0.5f, 1.0f, 1.0f, 1.0f,
+		// Position		Color				Texcoords
+		-0.5f, 0.5f,	1.0f, 0.0f, 0.0f,	0.0f, 0.0f,
+		0.5f, 0.5f,		0.0f, 1.0f, 0.0f,	10.0f, 0.0f,
+		0.5f, -0.5f,	0.0f, 0.0f, 1.0f,	10.0f, 10.0f,
+		-0.5f, -0.5f,	1.0f, 1.0f, 1.0f,	0.0f, 10.0f
 	};
 	
 	GLuint vbo;
@@ -51,21 +52,47 @@ int main()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
 
+	float texture[] = {
+		0.0f, 0.0f, 0.0f,	1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,	0.0f, 0.0f, 0.0f
+	};
+
+	GLuint tex;
+	glGenTextures(1, &tex);
+	glBindTexture(GL_TEXTURE_2D, tex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 2, 2, 0, GL_RGB, GL_FLOAT, texture);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	// If using CLAMP_TO_BORDER
+	// float color = { 1.0f, 1.0f, 1.0f, 1.0f } 
+	// glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, color);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+
 	GLuint vertexShader = ShaderLoader::LoadShader("basic.vert", GL_VERTEX_SHADER);
 	GLuint fragmentShader = ShaderLoader::LoadShader("basic.frag", GL_FRAGMENT_SHADER);
 
 	GLuint program = ShaderLoader::LinkProgram(vertexShader, fragmentShader, NULL);
-
 	//glBindFragDataLocation(program, 0, "outColor");
 	glUseProgram(program);
 
+	GLint texSampler = glGetUniformLocation(program, "tex");
+	glUniform1i(texSampler, 0);
+
 	GLint posAttrib = glGetAttribLocation(program, "position");
 	glEnableVertexAttribArray(posAttrib);
-	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 5*sizeof(float), 0);
+	glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, 7*sizeof(float), 0);
 	
 	GLint colorAttrib = glGetAttribLocation(program, "color");
 	glEnableVertexAttribArray(colorAttrib);
-	glVertexAttribPointer(colorAttrib, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(2 * sizeof(float)));
+	glVertexAttribPointer(colorAttrib, 3, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(2 * sizeof(float)));
+
+	GLint texAttrib = glGetAttribLocation(program, "texcoord");
+	glEnableVertexAttribArray(texAttrib);
+	glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 7 * sizeof(float), (void*)(5 * sizeof(float)));
 
 	while (!glfwWindowShouldClose(window))
 	{
